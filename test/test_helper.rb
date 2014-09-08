@@ -1,24 +1,26 @@
-require 'rubygems'
 require 'bundler/setup'
-Bundler.require(:test)
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))                      # test
-$LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib'))) # lib
 
-require 'minitest/autorun'
-require 'active_record'
 require 'resque/durable'
+require 'mocha/setup'
+require 'timecop'
+require 'minitest/autorun'
 
+require 'active_record'
 database_config = YAML.load_file(File.join(File.dirname(__FILE__), 'database.yml'))
 ActiveRecord::Base.establish_connection(database_config['test'])
 ActiveRecord::Base.default_timezone = :utc
-require 'schema'
+require './test/schema'
 
 I18n.enforce_available_locales = true
 
-MiniTest::Unit::TestCase.add_teardown_hook { Resque::Durable::QueueAudit.delete_all }
-MiniTest::Unit::TestCase.add_teardown_hook do
-  Mocha::Mockery.instance.teardown
-  Mocha::Mockery.reset_instance
+MiniTest::Unit::TestCase.class_eval do
+  def setup
+    Resque::Durable::QueueAudit.delete_all
+  end
+  def teardown
+    Mocha::Mockery.instance.teardown
+    Mocha::Mockery.reset_instance
+  end
 end
 
 module Resque
