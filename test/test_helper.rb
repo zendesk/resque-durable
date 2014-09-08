@@ -4,6 +4,7 @@ require 'resque/durable'
 require 'mocha/setup'
 require 'timecop'
 require 'minitest/autorun'
+require 'minitest/rg'
 
 require 'active_record'
 database_config = YAML.load_file(File.join(File.dirname(__FILE__), 'database.yml'))
