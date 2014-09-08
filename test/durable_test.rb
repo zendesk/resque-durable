@@ -33,18 +33,14 @@ module Resque::Durable
         end
 
         it 'has overridable exception handling' do
-          @queue = Class.new(MailQueueJob)
-
-          def @queue.enqueue_failed(exception)
-            @enqueue_failed = true
+          class NewMailQueueJob < MailQueueJob
+            def self.enqueue_failed(exception, args)
+              @called = [exception.class, args]
+            end
           end
 
-          def @queue.enqueue_failed?
-            @enqueue_failed == true
-          end
-
-          @queue.enqueue(:ka, :boom)
-          assert @queue.enqueue_failed?
+          NewMailQueueJob.enqueue(:ka, :boom)
+          assert_equal [ArgumentError, [:ka, :boom, "abc/1/12345"]], NewMailQueueJob.instance_variable_get(:@called)
         end
 
         it 'creates an audit' do

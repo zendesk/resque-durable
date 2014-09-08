@@ -24,12 +24,12 @@ module Resque
       begin
         audit.enqueued!
       rescue Exception => e
-        audit_failed(e)
+        audit_failed(e, args)
       end
 
       Resque.enqueue(self, *args)
     rescue Exception => e
-      enqueue_failed(e)
+      enqueue_failed(e, args)
     end
 
     def audit(args)
@@ -59,11 +59,11 @@ module Resque
       auditor.initialize_by_klass_and_args(self, args)
     end
 
-    def audit_failed(e)
+    def audit_failed(e, args)
       raise e
     end
 
-    def enqueue_failed(e)
+    def enqueue_failed(e, args)
       raise e
     end
 
