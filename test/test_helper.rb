@@ -8,6 +8,7 @@ require 'minitest/rg'
 
 require 'active_record'
 database_config = YAML.load_file(File.join(File.dirname(__FILE__), 'database.yml'))
+ActiveRecord::Schema.verbose = false
 ActiveRecord::Base.establish_connection(database_config['test'])
 ActiveRecord::Base.default_timezone = :utc
 require './test/schema'
