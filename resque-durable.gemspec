@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.version  = '1.1.0'
   s.authors  = [ 'Eric Chapweske', 'Ben Osheroff' ]
   s.summary  = 'Resque queue backed by database audits, with automatic retry'
-  s.homepage = 'https://github.com/eac/resque-durable'
+  s.homepage = 'https://github.com/zendesk/resque-durable'
   s.license  = 'MIT'
   s.files    = [
     'lib/resque/durable.rb',

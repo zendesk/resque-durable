@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 gem 'activerecord', '3.2.19'
+gem 'bump'
 
 group :test do
   gem 'rake'
