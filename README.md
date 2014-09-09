@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/eac/resque-durable.png)](https://travis-ci.org/eac/resque-durable)
+[![Build Status](https://travis-ci.org/zendesk/resque-durable.png)](https://travis-ci.org/zendesk/resque-durable)
+[![Dependencies](http://orgdeps.herokuapp.com/organizations/zendesk/repositories/resque-durable.svg?token=7f2805e330f6932a1754278d4161fe3f)](http://orgdeps.herokuapp.com/organizations/zendesk/repositories#resque-durable)
 
 
 # What's this?
