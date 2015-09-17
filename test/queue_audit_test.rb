@@ -43,12 +43,10 @@ module Resque::Durable
           end
 
           it 'records the failure' do
-            @bad_audit.expects(:fail!)
+            QueueAudit.logger.expects(:error)
             QueueAudit.recover
           end
-
         end
-
       end
 
       describe 'save!' do
