@@ -6,11 +6,11 @@ gem 'bump'
 
 group :test do
   gem 'rake'
-  gem 'resque',        '1.17.1'
+  gem 'resque',        '~>1.25'
   gem 'minitest',      '~>4.7.5'
   gem 'minitest-rg'
   gem 'mocha',         :require => 'mocha/setup'
   gem 'timecop'
-  gem 'sqlite3',       '1.3.6'
+  gem 'sqlite3'
   gem 'pry'
 end
