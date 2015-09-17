@@ -1,16 +1,19 @@
 require 'bundler/setup'
 
 require 'resque/durable'
-require 'mocha/setup'
-require 'timecop'
 require 'minitest/autorun'
 require 'minitest/rg'
+require 'mocha/setup'
+require 'timecop'
 
 require 'active_record'
+require 'logger'
 database_config = YAML.load_file(File.join(File.dirname(__FILE__), 'database.yml'))
 ActiveRecord::Schema.verbose = false
 ActiveRecord::Base.establish_connection(database_config['test'])
 ActiveRecord::Base.default_timezone = :utc
+ActiveRecord::Base.logger = Logger.new('/dev/null')
+
 require './test/schema'
 
 I18n.enforce_available_locales = true

@@ -12,4 +12,5 @@ group :test do
   gem 'mocha',         :require => 'mocha/setup'
   gem 'timecop'
   gem 'sqlite3',       '1.3.6'
+  gem 'pry'
 end
