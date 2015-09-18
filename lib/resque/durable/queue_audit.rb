@@ -4,6 +4,8 @@ require 'active_support/core_ext/class'
 module Resque
   module Durable
     class QueueAudit < ActiveRecord::Base
+      JobCollision = Class.new(StandardError)
+
       self.table_name = :durable_queue_audits
       # id
       # enqueued_id
@@ -87,6 +89,18 @@ module Resque
 
       def heartbeat!
         update_attribute(:timeout_at, Time.now.utc + duration)
+      end
+
+      # Bumps the `timeout_at` column, but raises a `JobCollision` exception if
+      # another process has changed the value, indicating we may have multiple
+      # workers processing the same job.
+      def optimistic_heartbeat!(last_timeout_at)
+        next_timeout_at = Time.now.utc + duration
+        nrows = self.class.
+          where(id: id, timeout_at: last_timeout_at).
+          update_all(timeout_at: next_timeout_at)
+        raise JobCollision.new unless nrows == 1
+        next_timeout_at
       end
 
       def fail!
