@@ -13,7 +13,7 @@ module Resque::Durable
       it 'heartbeats in the background for the requested interval' do
         # Thread timing is not deterministic. Using a 2x margin of variation.
         # Locally, this averaged 88 with a stddev of 1.4
-        queue_audit.expects(:optimistic_heartbeat!).at_least(50)
+        queue_audit.expects(:optimistic_heartbeat!).times((50..150))
         subject.with_heartbeat do
           sleep 1
         end

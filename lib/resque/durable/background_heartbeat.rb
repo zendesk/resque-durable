@@ -5,14 +5,12 @@ module Resque
 
     # Creates a background thread to regularly heartbeat the queue audit.
     class BackgroundHeartbeat
-      DEFAULT_INTERVAL = 15
 
-      def initialize(queue_audit, interval = nil)
+      def initialize(queue_audit, interval)
         @queue_audit  = queue_audit
         @last_timeout = nil
-        @interval     = interval || DEFAULT_INTERVAL
+        @interval     = interval
         @mutex        = Mutex.new
-        @cv           = ConditionVariable.new
         @stop         = false
         @thread       = nil
       end
@@ -53,7 +51,7 @@ module Resque
             heartbeat!
 
             @mutex.synchronize do
-              @cv.wait(@mutex, @interval)
+              @mutex.sleep(@interval)
             end
           end
         end
@@ -73,9 +71,10 @@ module Resque
 
       # Signal the `heartbeat` thread to stop looping immediately. Safe to be call from any thread.
       def signal_stop!
+        return unless @thread
         @mutex.synchronize do
           @stop = true
-          @cv.signal
+          @thread.wakeup
         end
       end
     end
