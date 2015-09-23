@@ -62,6 +62,18 @@ module Resque
 
       cattr_accessor :fail
     end
+
+    class BackgroundHeartbeatTestJob
+      extend Resque::Durable
+      self.background_heartbeat_interval = 0.1
+      @queue = :test_queue
+
+      def self.perform(travel_to, audit)
+        Timecop.travel(Time.parse travel_to) do
+          sleep 0.2
+        end
+      end
+    end
   end
 end
 

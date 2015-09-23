@@ -100,5 +100,22 @@ module Resque::Durable
 
       end
     end
+
+    describe 'background heartbeating' do
+      before do
+        QueueAudit.delete_all
+        Resque.inline = true
+      end
+
+      after do
+        Resque.inline = false
+      end
+
+      it 'heartbeats continously in the background' do
+        time_travel = Time.now + 10.years
+        BackgroundHeartbeatTestJob.enqueue(time_travel)
+        QueueAudit.first.timeout_at.must_be :>, time_travel
+      end
+    end
   end
 end

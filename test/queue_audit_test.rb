@@ -196,6 +196,32 @@ module Resque::Durable
         end
       end
 
+      describe 'optimistic_heartbeat!' do
+        before do
+          @audit.save!
+          @audit.heartbeat!
+        end
+        describe 'with a correct current value' do
+          it 'updates the database and returns the new value' do
+            Timecop.freeze do
+              new_timeout_at = @audit.optimistic_heartbeat!(@audit.timeout_at)
+              assert_equal(Time.now.utc + @audit.duration, new_timeout_at)
+              @audit.reload
+              # `round` is due to sqlite losing precision on some platforms
+              assert_equal(new_timeout_at.round, @audit.timeout_at.round)
+            end
+          end
+        end
+
+        describe 'with an incorrect current value' do
+          it 'raises JobCollision' do
+            assert_raises Resque::Durable::QueueAudit::JobCollision do
+              @audit.optimistic_heartbeat!(@audit.timeout_at + 1.second)
+            end
+          end
+        end
+      end
+
       it 'has an exponential delay based on enqueue attempts' do
         @audit.enqueued!
         assert_equal 1.minute,   @audit.delay
