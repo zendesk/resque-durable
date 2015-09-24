@@ -8,13 +8,12 @@ module Resque::Durable
         QueueAudit.delete_all
         GUID.stubs(:generate).returns('abc/1/12345')
         Resque.expects(:enqueue).with(Resque::Durable::MailQueueJob, :foo, :bar, 'abc/1/12345')
-        MailQueueJob.enqueue(:foo, :bar)
+        @audit = MailQueueJob.enqueue(:foo, :bar)
       end
 
       describe 'enqueue' do
         it 'creates an audit' do
-          audit = QueueAudit.find_by_enqueued_id('abc/1/12345')
-
+          audit = QueueAudit.find_by_enqueued_id(@audit.enqueued_id)
           assert_equal 'abc/1/12345', audit.enqueued_id
         end
 

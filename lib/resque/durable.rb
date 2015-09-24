@@ -37,6 +37,7 @@ module Resque
       end
 
       Resque.enqueue(self, *args)
+      audit
     rescue Exception => e
       enqueue_failed(e, args)
     end
