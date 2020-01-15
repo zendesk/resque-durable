@@ -3,7 +3,6 @@ require 'bundler/setup'
 require 'resque/durable'
 require 'minitest/autorun'
 require 'minitest/rg'
-require 'mocha/setup'
 require 'timecop'
 
 require 'active_record'
@@ -21,10 +20,6 @@ I18n.enforce_available_locales = true
 MiniTest::Unit::TestCase.class_eval do
   def setup
     Resque::Durable::QueueAudit.delete_all
-  end
-  def teardown
-    Mocha::Mockery.instance.teardown
-    Mocha::Mockery.reset_instance
   end
 end
 
@@ -82,3 +77,4 @@ def work_queue(name)
   worker.process
 end
 
+require 'mocha/minitest'
