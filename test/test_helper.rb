@@ -3,6 +3,7 @@ require 'bundler/setup'
 require 'resque/durable'
 require 'minitest/autorun'
 require 'minitest/rg'
+require 'mocha/minitest'
 require 'timecop'
 
 require 'active_record'
@@ -77,5 +78,3 @@ def work_queue(name)
   worker = Resque::Worker.new(name)
   worker.process
 end
-
-require 'mocha/minitest'

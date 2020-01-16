@@ -73,7 +73,7 @@ DEPENDENCIES
   bump
   minitest
   minitest-rg
-  mocha
+  mocha (>= 1.4)
   pry
   rake
   resque (~> 1.25)
@@ -83,4 +83,4 @@ DEPENDENCIES
   timecop
 
 BUNDLED WITH
-   2.0.2
+   1.17.3
