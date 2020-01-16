@@ -1,5 +1,5 @@
 require 'active_record'
-require 'active_support/core_ext/class'
+require 'active_support/core_ext'
 
 module Resque
   module Durable
@@ -21,7 +21,7 @@ module Resque
 
       validates_length_of    :payload_before_type_cast, :in => 1..5000
 
-      validates_inclusion_of :duration, :in => 1.minute..3.hours
+      validates_inclusion_of :duration, :in => 1.minute.to_i..3.hours.to_i
 
       scope :older_than, ->(date) { where('created_at < ?', date) }
 
