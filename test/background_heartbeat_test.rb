@@ -30,9 +30,9 @@ module Resque::Durable
       it 'starts a thread and shuts it down before returning' do
         base_thread_count = Thread.list.length
         subject.with_heartbeat do
-          Thread.list.length.must_equal base_thread_count + 1
+          assert_equal base_thread_count + 1, Thread.list.length
         end
-        Thread.list.length.must_equal base_thread_count
+        assert_equal base_thread_count, Thread.list.length
       end
     end
   end
