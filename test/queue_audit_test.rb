@@ -96,7 +96,7 @@ module Resque::Durable
 
         it 'provides audits enqueued for more than than the expected run duration' do
           Timecop.freeze(@audit.timeout_at + 1.second) do
-            assert_equal [ @audit ], QueueAudit.failed
+            assert_equal [ @audit ], QueueAudit.failed.to_a
           end
         end
 
