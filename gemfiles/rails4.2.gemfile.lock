@@ -1,8 +1,8 @@
 PATH
   remote: ..
   specs:
-    resque-durable (1.2.0)
-      activerecord
+    resque-durable (2.0.0)
+      activerecord (>= 4.2)
 
 GEM
   remote: https://rubygems.org/
