@@ -5,7 +5,7 @@ gemspec :path => '..'
 
 gem 'bump'
 gem 'rake'
-gem 'resque',        '~>1.25'
+gem 'resque',        '~>1.27'
 gem 'minitest'
 gem 'minitest-rg'
 gem 'mocha', '>=1.4'
