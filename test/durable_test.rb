@@ -114,7 +114,7 @@ module Resque::Durable
       it 'heartbeats continously in the background' do
         time_travel = Time.now + 10.years
         BackgroundHeartbeatTestJob.enqueue(time_travel)
-        QueueAudit.first.timeout_at.must_be :>, time_travel
+        assert_operator QueueAudit.first.timeout_at, :>, time_travel
       end
     end
   end
