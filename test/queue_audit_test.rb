@@ -1,7 +1,8 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
+require 'pry-byebug'
 
 module Resque::Durable
-  class QueueAuditTest < MiniTest::Unit::TestCase
+  class QueueAuditTest < Minitest::Test
 
     describe 'Queue Audit' do
       after do
@@ -95,12 +96,13 @@ module Resque::Durable
         end
 
         it 'provides audits enqueued for more than than the expected run duration' do
+          # binding.pry
           Timecop.freeze(@audit.timeout_at + 1.second) do
             assert_equal [ @audit ], QueueAudit.failed.to_a
           end
         end
 
-        it 'does not provides audits enqueued less than the expected run duration' do
+        it 'does not provide audits enqueued less than the expected run duration' do
           Timecop.freeze(@audit.timeout_at - 1.second) do
             assert_equal [], QueueAudit.failed
           end

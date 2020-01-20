@@ -19,7 +19,7 @@ require './test/schema'
 
 I18n.enforce_available_locales = true
 
-MiniTest::Unit::TestCase.class_eval do
+Minitest::Test.class_eval do
   def setup
     Resque::Durable::QueueAudit.delete_all
   end

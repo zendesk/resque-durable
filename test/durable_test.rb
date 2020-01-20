@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 module Resque::Durable
-  class DurableTest < MiniTest::Unit::TestCase
+  class DurableTest < Minitest::Test
 
     describe 'Durable queue' do
       before do

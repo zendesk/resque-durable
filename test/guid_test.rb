@@ -1,7 +1,7 @@
 require_relative './test_helper'
 
 module Resque::Durable
-  class GUIDTest < MiniTest::Unit::TestCase
+  class GUIDTest < Minitest::Test
 
     describe 'GUID generate' do
 

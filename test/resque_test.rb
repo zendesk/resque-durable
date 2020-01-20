@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 require 'resque'
 
 module Resque::Durable
-  class ResqueTest < MiniTest::Unit::TestCase
+  class ResqueTest < Minitest::Test
     describe 'With Resque' do
       before do
         $mail_queue_job_results = nil

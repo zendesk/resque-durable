@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MonitorTest < MiniTest::Unit::TestCase
+class MonitorTest < Minitest::Test
 
   class TestMonitor
     include Resque::Durable::Monitor
