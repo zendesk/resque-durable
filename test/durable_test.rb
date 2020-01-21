@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 module Resque::Durable
-  class DurableTest < MiniTest::Unit::TestCase
+  class DurableTest < Minitest::Test
 
     describe 'Durable queue' do
       before do
@@ -114,7 +114,7 @@ module Resque::Durable
       it 'heartbeats continously in the background' do
         time_travel = Time.now + 10.years
         BackgroundHeartbeatTestJob.enqueue(time_travel)
-        QueueAudit.first.timeout_at.must_be :>, time_travel
+        assert_operator QueueAudit.first.timeout_at, :>, time_travel
       end
     end
   end

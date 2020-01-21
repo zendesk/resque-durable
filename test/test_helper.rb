@@ -3,11 +3,12 @@ require 'bundler/setup'
 require 'resque/durable'
 require 'minitest/autorun'
 require 'minitest/rg'
-require 'mocha/setup'
+require 'mocha/minitest'
 require 'timecop'
 
 require 'active_record'
 require 'logger'
+require 'yaml'
 database_config = YAML.load_file(File.join(File.dirname(__FILE__), 'database.yml'))
 ActiveRecord::Schema.verbose = false
 ActiveRecord::Base.establish_connection(database_config['test'])
@@ -18,13 +19,9 @@ require './test/schema'
 
 I18n.enforce_available_locales = true
 
-MiniTest::Unit::TestCase.class_eval do
+Minitest::Test.class_eval do
   def setup
     Resque::Durable::QueueAudit.delete_all
-  end
-  def teardown
-    Mocha::Mockery.instance.teardown
-    Mocha::Mockery.reset_instance
   end
 end
 
@@ -81,4 +78,3 @@ def work_queue(name)
   worker = Resque::Worker.new(name)
   worker.process
 end
-

@@ -9,7 +9,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime :enqueued_at
     t.datetime :completed_at
     t.datetime :timeout_at
-    t.timestamps
+    t.timestamps :null => true
   end
   add_index(:durable_queue_audits, :enqueued_id, :unique => true)
 

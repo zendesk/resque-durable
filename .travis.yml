@@ -1,10 +1,31 @@
 language: ruby
+sudo: false
+cache: bundler
+
+branches:
+  only: master
+
 services:
   - redis-server
+
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.7
-  - 2.2.3
-branches:
-  only: [master]
+  - 2.4
+  - 2.5
+
+gemfile:
+  - gemfiles/rails4.2.gemfile
+  - gemfiles/rails5.0.gemfile
+  - gemfiles/rails5.1.gemfile
+  - gemfiles/rails5.2.gemfile
+
+matrix:
+  exclude:
+    # Rails 4.2
+    - rvm: 2.5
+      gemfile: gemfiles/rails4.2.gemfile
+    # Rails 5.0
+    - rvm: 2.5
+      gemfile: gemfiles/rails5.0.gemfile
+
+before_install: rm Gemfile.lock gemfiles/*.lock
+script: bundle exec rake test

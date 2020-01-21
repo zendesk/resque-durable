@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 require 'resque'
 
 module Resque::Durable
-  class ResqueTest < MiniTest::Unit::TestCase
+  class ResqueTest < Minitest::Test
     describe 'With Resque' do
       before do
         $mail_queue_job_results = nil
@@ -52,7 +52,7 @@ module Resque::Durable
           MailQueueJob.fail = true
           MailQueueJob.enqueue(123, 456)
           work_queue(:test_queue)
-          @audit = QueueAudit.find(:all).detect { |j| j.payload == [123, 456] }
+          @audit = QueueAudit.all.detect { |j| j.payload == [123, 456] }
         end
 
         it "should have enqueued a job" do

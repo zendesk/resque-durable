@@ -1,5 +1,5 @@
 require 'active_record'
-require 'active_support/core_ext/class'
+require 'active_support/core_ext'
 
 module Resque
   module Durable
@@ -21,19 +21,18 @@ module Resque
 
       validates_length_of    :payload_before_type_cast, :in => 1..5000
 
-      validates_inclusion_of :duration, :in => 1.minute..3.hours
+      validates_inclusion_of :duration, :in => 1.minute.to_i..3.hours.to_i
 
-      scope :older_than, lambda { |date|
-        { :conditions => [ 'created_at < ?', date ] }
+      scope :older_than, ->(date) { where('created_at < ?', date) }
+
+      scope :failed, -> {
+        where(completed_at: nil)
+          .where('timeout_at < ?', Time.now.utc)
+          .order('timeout_at asc')
+          .limit(500)
       }
 
-      scope :failed, lambda {
-        { :conditions => [ 'completed_at is null AND timeout_at < ?', Time.now.utc ], :order => 'timeout_at asc', :limit => 500 }
-      }
-
-      scope :complete, lambda {
-        { :conditions => 'completed_at is not null' }
-      }
+      scope :complete, -> { where('completed_at is not null') }
 
       module Recovery
 

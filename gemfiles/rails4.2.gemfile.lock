@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ..
   specs:
     resque-durable (2.0.0)
       activerecord (>= 4.2)
