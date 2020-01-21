@@ -26,7 +26,10 @@ module Resque
       scope :older_than, ->(date) { where('created_at < ?', date) }
 
       scope :failed, -> {
-        where('completed_at is null AND timeout_at < ?', Time.now.utc).order('timeout_at asc').limit(500)
+        where(completed_at: nil)
+          .where('timeout_at < ?', Time.now.utc)
+          .order('timeout_at asc')
+          .limit(500)
       }
 
       scope :complete, -> { where('completed_at is not null') }
