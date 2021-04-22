@@ -67,6 +67,8 @@ module Resque
       end
 
       def payload
+        return if read_attribute(:payload).blank?
+
         ActiveSupport::JSON.decode(super)
       end
 
@@ -123,6 +125,8 @@ module Resque
       end
 
       def retryable?
+        return false if timeout_at.blank?
+
         Time.now.utc > (timeout_at + delay)
       end
 
