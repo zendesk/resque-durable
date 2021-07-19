@@ -66,10 +66,24 @@ module Resque
           yield
         end
 
-        a.complete!
+        if requeue_immediately
+          a.reset_backoff!
+        else
+          a.complete!
+        end
       else
         yield
       end
+    ensure
+      @requeue_immediately = false
+    end
+
+    def requeue_immediately
+      @requeue_immediately
+    end
+
+    def requeue_immediately!
+      @requeue_immediately = true
     end
 
     def build_audit(args)
