@@ -99,6 +99,35 @@ module Resque::Durable
         end
 
       end
+
+      describe 'when requeue_immediately_requested' do
+        before do
+          MailQueueJob.re_enqueue_immediately!
+        end
+
+        it 'requeue_immediately_requested? should return true' do
+          assert MailQueueJob.re_enqueue_immediately?
+        end
+
+        it 'should call re_enqueue_immediately! and set enqueue_count to 1' do
+          audit = QueueAudit.find_by_enqueued_id('abc/1/12345')
+
+          MailQueueJob.around_perform_manage_audit('hello', "foo", 'abc/1/12345') {}
+
+          audit.reload
+          assert_equal 1, audit.enqueue_count
+        end
+
+        it 'should not complete' do
+          audit = QueueAudit.find_by_enqueued_id('abc/1/12345')
+          assert !audit.complete?
+
+          MailQueueJob.around_perform_manage_audit('hello', "foo", 'abc/1/12345') {}
+
+          audit.reload
+          assert !audit.complete?
+        end
+      end
     end
 
     describe 'background heartbeating' do

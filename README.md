@@ -14,6 +14,14 @@ it's considered failed, and will be re-enqueued with exponential backoff until i
 
 See /examples
 
+### Re-enqueuing gracefully
+
+To re-enqueue the job gracefully, and without waiting for the the audit failure timeout, call the `re_enqueue_immediately!` class method at any point while performing the job (usually at or close to the end).
+
+Resque/Durable will not mark the job as complete. Instead, it will mark the job as failed and reset the exponential backoff. The background durable monitor will then re-enqueue the job as described above.
+
+A common use case for this would be to gracefully stop a long-running job for a worker restart, and retry the job as soon as possible after the worker restart.
+
 # When things go wrong
 
 Audits stick around, and will be retried, until completed or expired by the monitoring script (expiration is configurable).
