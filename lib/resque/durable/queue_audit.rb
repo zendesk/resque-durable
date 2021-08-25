@@ -131,6 +131,13 @@ module Resque
         (enqueue_count ** 3).minutes
       end
 
+      def reset_backoff!(timeout_at = Time.now.utc)
+        # Set timeout_at = Time.now and enqueue_count = 1 so
+        # the job can be picked up by the Durable Monitor asap.
+        self.timeout_at = timeout_at
+        self.enqueue_count = 1
+        save!
+      end
     end
   end
 end

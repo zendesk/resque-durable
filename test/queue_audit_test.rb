@@ -233,6 +233,27 @@ module Resque::Durable
         assert_equal 27.minutes, @audit.delay
       end
 
+      describe 'reset_backoff!' do
+        before do
+          @timeout_at = Time.now.utc
+          @audit.reset_backoff!(@timeout_at)
+          @audit.reload
+        end
+
+        it 'should change the timeout_at value' do
+          assert_equal @timeout_at, @audit.timeout_at
+        end
+
+        it 'provides audits enqueued for more than the expected run duration' do
+          Timecop.freeze(@audit.timeout_at + 1.minutes) do
+            assert_equal [ @audit ], QueueAudit.failed.to_a
+          end
+        end
+
+        it 'should set the enqueue_count value to 1' do
+          assert_equal 1, @audit.enqueue_count
+        end
+      end
     end
 
   end
