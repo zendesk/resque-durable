@@ -16,7 +16,7 @@ See /examples
 
 ### Re-enqueuing gracefully
 
-To re-enqueue the job gracefully, and without waiting for the the audit failure timeout, call the `re_enqueue_immediately!` class method at any point while performing the job (usually at or close to the end).
+To re-enqueue the job gracefully, and without waiting for the the audit failure timeout, call the `requeue_immediately!` class method at any point while performing the job (usually at or close to the end).
 
 Resque/Durable will not mark the job as complete. Instead, it will mark the job as failed and reset the exponential backoff. The background durable monitor will then re-enqueue the job as described above.
 
