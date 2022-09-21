@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/zendesk/resque-durable'
   s.license  = 'MIT'
   s.files    = `git ls-files lib`.split($/)
-  s.required_ruby_version = '>=2.4'
-  s.add_runtime_dependency 'activerecord', '>=4.2'
+  s.required_ruby_version = '>= 2.6'
+  s.add_runtime_dependency 'activerecord', '>= 5.1'
   s.add_runtime_dependency 'resque', '~> 1.27'
   s.add_runtime_dependency 'uuidtools'
 end
