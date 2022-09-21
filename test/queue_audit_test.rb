@@ -235,13 +235,18 @@ module Resque::Durable
 
       describe 'reset_backoff!' do
         before do
+          Timecop.freeze(Time.now.utc + 1.minute)
           @timeout_at = Time.now.utc
           @audit.reset_backoff!(@timeout_at)
           @audit.reload
         end
 
+        after do
+          Timecop.return
+        end
+
         it 'should change the timeout_at value' do
-          assert_equal @timeout_at, @audit.timeout_at
+          assert_equal @timeout_at.round, @audit.timeout_at.round
         end
 
         it 'provides audits enqueued for more than the expected run duration' do
