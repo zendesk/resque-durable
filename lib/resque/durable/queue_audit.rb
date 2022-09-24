@@ -23,7 +23,7 @@ module Resque
 
       validates_inclusion_of :duration, :in => 1.minute.to_i..3.hours.to_i
 
-      scope :older_than, ->(date) { where('created_at < ?', date) }
+      scope :older_than, ->(date) { where('created_at < ?', date).limit(500) }
 
       scope :failed, -> {
         where(completed_at: nil)
