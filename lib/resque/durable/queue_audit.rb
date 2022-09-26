@@ -23,7 +23,7 @@ module Resque
 
       validates_inclusion_of :duration, :in => 1.minute.to_i..3.hours.to_i
 
-      scope :older_than, ->(date) { where('created_at < ?', date).limit(500) }
+      scope :older_than, ->(date) { where('created_at < ?', date).limit(10000) }
 
       scope :failed, -> {
         where(completed_at: nil)
@@ -48,7 +48,7 @@ module Resque
         end
 
         def cleanup(date)
-          older_than(date).destroy_all
+          older_than(date).delete_all
         end
 
       end
