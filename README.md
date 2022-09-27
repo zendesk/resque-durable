@@ -22,6 +22,14 @@ Resque/Durable will not mark the job as complete. Instead, it will mark the job 
 
 A common use case for this would be to gracefully stop a long-running job for a worker restart, and retry the job as soon as possible after the worker restart.
 
+### Validating payload limits
+
+It is recommended to add a validation based on the limits of the `payload` column in your implementation. For example:
+
+```
+validates_length_of :payload_before_type_cast, :in => 1..5000
+```
+
 # When things go wrong
 
 Audits stick around, and will be retried, until completed or expired by the monitoring script (expiration is configurable).
