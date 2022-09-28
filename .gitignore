@@ -1,2 +1,4 @@
 test/db
 vendor/cache
+Gemfile.lock
+gemfiles/*.lock
