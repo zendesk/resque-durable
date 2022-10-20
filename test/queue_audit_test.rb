@@ -100,13 +100,37 @@ module Resque::Durable
 
       end
 
-      describe 'enqueue' do
+      describe '#payload' do
+        subject do
+          @audit.payload
+        end
 
+        describe 'without data present' do
+          before do
+            @audit[:payload] = ''
+          end
+
+          it { expect(subject).must_be_nil }
+        end
+
+        describe 'with JSON data available' do
+          before do
+            @audit[:payload] = \
+              { test: 'data' }.to_json
+          end
+
+          it 'returns as decoded' do
+            expect(subject).must_equal \
+              ({ 'test' => 'data' })
+          end
+        end
+      end
+
+      describe 'enqueue' do
         it 'sends the payload to the queue' do
           Resque.expects(:enqueue).with(MailQueueJob, 'hello', @audit.enqueued_id)
           @audit.enqueue
         end
-
       end
 
       describe 'enqueued!' do
@@ -150,13 +174,16 @@ module Resque::Durable
       end
 
 
-      describe 'retryable?' do
+      describe '#retryable?' do
+        subject do
+          @audit.retryable?
+        end
 
         it 'checks if the expected run duration with delay is exceeded' do
           @audit.enqueued!
           assert_equal 1.minute,   @audit.delay
           assert_equal 10.minutes, @audit.duration
-          assert_equal false, @audit.retryable?
+          assert_equal false, subject
 
           Timecop.freeze(Time.now + 10.minutes) do
             assert_equal false, @audit.retryable?
@@ -168,6 +195,16 @@ module Resque::Durable
 
           Timecop.freeze(1.year.from_now) do
             assert_equal true, @audit.retryable?
+          end
+        end
+
+        describe 'without :timeout_at value' do
+          before do
+            @audit[:timeout_at] = ''
+          end
+
+          it 'is always false' do
+            expect(subject).must_equal false
           end
         end
       end
