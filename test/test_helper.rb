@@ -71,6 +71,13 @@ module Resque
         end
       end
     end
+
+    class AlternativeAuditor < QueueAudit; end
+
+    class AlternativeAuditorTestJob
+      extend Resque::Durable
+      self.auditor = AlternativeAuditor
+    end
   end
 end
 

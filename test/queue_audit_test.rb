@@ -13,6 +13,7 @@ module Resque::Durable
         @queue.data = []
 
         @audit = QueueAudit.initialize_by_klass_and_args(MailQueueJob, [ 'hello' ])
+        @alt_audit = QueueAudit.initialize_by_klass_and_args(AlternativeAuditorTestJob, [ 'foo' ])
       end
 
       describe 'recover' do
@@ -105,6 +106,11 @@ module Resque::Durable
         it 'sends the payload to the queue' do
           Resque.expects(:enqueue).with(MailQueueJob, 'hello', @audit.enqueued_id)
           @audit.enqueue
+        end
+
+        it 'sends the correct payload (no extra audit arg) when using an alternative auditor' do
+          Resque.expects(:enqueue).with(AlternativeAuditorTestJob, 'foo', @alt_audit.enqueued_id)
+          @alt_audit.enqueue
         end
 
       end

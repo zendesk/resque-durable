@@ -77,7 +77,7 @@ module Resque
       end
 
       def enqueue
-        job_klass.enqueue(*(payload.push(self)))
+        job_klass.enqueue(*(payload.push(becomes(job_klass.auditor))))
       end
 
       def duration
