@@ -1,5 +1,9 @@
 # Unreleased
 
+# 4.0.1
+
+- Bug fix: Cast job audit to the configured auditor class when enqueuing
+
 # 4.0.0
 
 - Clean up expired audits using `delete_all` in batches of 10000 (#15)
