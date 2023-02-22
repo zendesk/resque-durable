@@ -11,6 +11,7 @@ module Resque
         @last_timeout = nil
         @interval     = interval
         @mutex        = Mutex.new
+        @cv           = ConditionVariable.new
         @stop         = false
         @thread       = nil
       end
@@ -51,7 +52,11 @@ module Resque
             heartbeat!
 
             @mutex.synchronize do
-              @mutex.sleep(@interval)
+              end_at = monotonic_now + @interval
+              while !@stop && monotonic_now < end_at
+                sleep_for = end_at - monotonic_now
+                @cv.wait(@mutex, sleep_for)
+              end
             end
           end
         end
@@ -59,12 +64,9 @@ module Resque
 
       def stop_and_wait!
         return unless @thread
+        signal_stop!
         # Prevent deadlock if called by the `heartbeat` thread, which can't wait for itself to die.
-        return signal_stop! if @thread == Thread.current
-        while @thread.alive?
-          signal_stop!
-          sleep 0.01
-        end
+        return if @thread == Thread.current
         @thread.join
         @thread = nil
       end
@@ -74,8 +76,14 @@ module Resque
         return unless @thread
         @mutex.synchronize do
           @stop = true
-          @thread.wakeup
+          @cv.broadcast
         end
+      end
+
+      private
+
+      def monotonic_now
+        Process.clock_gettime(Process::CLOCK_MONOTONIC)
       end
     end
   end

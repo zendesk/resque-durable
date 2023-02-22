@@ -34,6 +34,20 @@ module Resque::Durable
         end
         assert_equal base_thread_count, Thread.list.length
       end
+
+      describe 'with a long interval' do
+        let(:subject) { BackgroundHeartbeat.new(queue_audit, 100) }
+
+        it 'aborts if requested to' do
+          t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+          subject.with_heartbeat do
+            sleep 1
+          end
+          t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+          # The important thing is that this takes 1 second, not 100 seconds, so use a big delta.
+          assert_in_delta (t2 - t1), 1, 10
+        end
+      end
     end
   end
 end
