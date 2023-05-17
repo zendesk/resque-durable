@@ -13,13 +13,4 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("resque", "~> 1.27")
   s.add_runtime_dependency("uuidtools", "~> 2.2")
   s.add_runtime_dependency("redis", "< 5")
-
-  s.add_development_dependency("bump")
-  s.add_development_dependency("rake")
-  s.add_development_dependency("minitest")
-  s.add_development_dependency("minitest-rg")
-  s.add_development_dependency("mocha")
-  s.add_development_dependency("timecop")
-  s.add_development_dependency("pry")
-  s.add_development_dependency("sqlite3")
 end
