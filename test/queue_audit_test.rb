@@ -57,7 +57,7 @@ module Resque::Durable
           Timecop.freeze(Time.now) do
             @audit.complete!
 
-            assert_equal Time.now, @audit.completed_at
+            assert_equal Time.now.floor(6), @audit.completed_at
             assert_equal true,     @audit.complete?
           end
         end
@@ -129,7 +129,7 @@ module Resque::Durable
             @audit.enqueued!
           end
 
-          assert_equal an_hour_ago, @audit.enqueued_at
+          assert_equal an_hour_ago.floor(6), @audit.enqueued_at
         end
 
       end
@@ -141,7 +141,7 @@ module Resque::Durable
             @audit.enqueued!
           end
 
-          assert_equal (an_hour_ago + 10.minutes), @audit.timeout_at
+          assert_equal (an_hour_ago + 10.minutes).floor(6), @audit.timeout_at
         end
 
         it 'allows configuration of the timeout' do
@@ -184,13 +184,13 @@ module Resque::Durable
           Timecop.freeze(ts) do
             @audit.enqueued!
           end
-          assert_equal ts + 10.minutes, @audit.timeout_at
+          assert_equal (ts + 10.minutes).floor(6), @audit.timeout_at
 
           ts = 30.minutes.ago
           Timecop.freeze(ts) do
             @audit.heartbeat!
           end
-          assert_equal ts + 10.minutes, @audit.timeout_at
+          assert_equal (ts + 10.minutes).floor(6), @audit.timeout_at
         end
       end
 
