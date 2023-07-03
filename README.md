@@ -33,7 +33,7 @@ Due to the backoff delay, a typical job won't be retried more than 10 times in 2
 
 If a queue becomes backed up for too long, jobs may become double enqueued.
 The first enqueued job will mark the audit as complete, and the second version of the job won't be worked on.
-This strategy greatly reduces the possibility, but doesn't gaurentee, the same job isn't performed twice.
+This strategy greatly reduces the possibility, but doesn't guarantee, the same job isn't performed twice.
 
 # License
 MIT
