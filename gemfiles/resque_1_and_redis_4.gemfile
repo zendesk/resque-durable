@@ -1,0 +1,4 @@
+eval_gemfile("common.rb")
+
+gem "resque", "~> 1.27"
+gem "redis", "~> 4"
