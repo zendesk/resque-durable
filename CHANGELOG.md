@@ -1,7 +1,10 @@
 # Unreleased
 
+# 4.1.1
+- Relax `resque` and `redis` dependency requirements
+
 # 4.1.0
-- Add support for Ruby 3.1 and 3.2 
+- Add support for Ruby 3.1 and 3.2
 - Add support for Rails 7.0
 - Drop support for Rails 5.1
 
