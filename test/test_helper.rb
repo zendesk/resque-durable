@@ -2,7 +2,6 @@ require 'bundler/setup'
 
 require 'resque/durable'
 require 'minitest/autorun'
-require 'minitest/rg'
 require 'mocha/minitest'
 require 'timecop'
 
