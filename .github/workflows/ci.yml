@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -29,16 +29,14 @@ jobs:
           - rails6.0
           - rails6.1
           - rails7.0
+          - rails7.1
           - resque_1_and_redis_4
-        include:
-          - ruby-version: "2.7"
-            gemfile: rails5.2
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
 
     steps:
-      - uses: zendesk/checkout@v3
+      - uses: zendesk/checkout@v4
 
       - uses: zendesk/setup-ruby@v1
         with:
