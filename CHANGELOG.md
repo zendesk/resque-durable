@@ -1,5 +1,8 @@
 # Unreleased
 
+- Add support for Rails 7.1
+- Drop support for Rails 5.2
+
 # 4.1.1
 - Relax `resque` and `redis` dependency requirements
 

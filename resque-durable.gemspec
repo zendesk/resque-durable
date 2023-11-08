@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.7"
 
-  s.add_runtime_dependency("activerecord", ">= 5.2")
+  s.add_runtime_dependency("activerecord", ">= 6.0")
   s.add_runtime_dependency("resque", ">= 1.27")
   s.add_runtime_dependency("uuidtools", "~> 2.2")
   s.add_runtime_dependency("redis")
