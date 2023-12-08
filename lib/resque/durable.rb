@@ -21,7 +21,7 @@ module Resque
       base.auditor = QueueAudit
     end
 
-    def enqueue(*args)
+    def enqueue_audit(*args, timestamp: nil)
       if args.last.is_a?(auditor)
         # the audit-is-re-enqueing case
         audit = args.pop
@@ -31,14 +31,29 @@ module Resque
 
       args << audit.enqueued_id
       begin
-        audit.enqueued!
+        audit.enqueued!(enqueue_at: timestamp)
       rescue Exception => e
         audit_failed(e, args)
       end
+      args
+    end
 
-      Resque.enqueue(self, *args)
+    def enqueue(*args)
+      args_with_enqueued_id = enqueue_audit(*args)
+
+      Resque.enqueue(self, *args_with_enqueued_id)
     rescue Exception => e
-      enqueue_failed(e, args)
+      enqueue_failed(e, args_with_enqueued_id)
+    end
+
+    def enqueue_at(timestamp, *args)
+      Rails.logger.info("Fingerprint[asdfasdfasdf12345] - resque_durable - Using enqueue_at!")
+
+      args_with_enqueued_id = enqueue_audit(*args)
+
+      Resque.enqueue_at(timestamp, self, *args_with_enqueued_id)
+    rescue Exception => e
+      enqueue_failed(e, args_with_enqueued_id)
     end
 
     def audit(args)
@@ -97,6 +112,7 @@ module Resque
     def enqueue_failed(e, args)
       raise e
     end
+
 
   end
 end

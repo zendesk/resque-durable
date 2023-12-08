@@ -80,6 +80,10 @@ module Resque
         job_klass.enqueue(*(payload.push(becomes(job_klass.auditor))))
       end
 
+      def enqueue_at(timestamp)
+        job_klass.enqueue_at(timestamp, *(payload.push(becomes(job_klass.auditor))))
+      end
+
       def duration
         job_klass.job_timeout
       end
@@ -104,8 +108,8 @@ module Resque
         update_attribute(:timeout_at, Time.now.utc)
       end
 
-      def enqueued!
-        self.enqueued_at    = Time.now.utc
+      def enqueued!(enqueue_at: nil)
+        self.enqueued_at    = enqueue_at || Time.now.utc
         self.timeout_at     = enqueued_at + duration
         self.enqueue_count += 1
         save!
