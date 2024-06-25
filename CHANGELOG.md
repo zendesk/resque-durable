@@ -2,6 +2,7 @@
 
 - Add support for Rails 7.1
 - Drop support for Rails 5.2
+- Drop support for Ruby below 3.1
 
 # 4.1.1
 - Relax `resque` and `redis` dependency requirements
