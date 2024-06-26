@@ -105,6 +105,10 @@ module Resque::Durable
           MailQueueJob.requeue_immediately!
         end
 
+        after do
+          MailQueueJob.disable_requeue_immediately
+        end
+
         it 're_enqueue_immediately? should return true' do
           assert MailQueueJob.requeue_immediately
         end

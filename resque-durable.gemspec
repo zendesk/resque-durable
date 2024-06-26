@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.license  = "MIT"
   s.files    = `git ls-files lib`.split($/)
 
-  s.required_ruby_version = ">= 2.7"
+  s.required_ruby_version = ">= 3.1"
 
-  s.add_runtime_dependency("activerecord", ">= 6.0")
+  s.add_runtime_dependency("activerecord", ">= 6.1")
   s.add_runtime_dependency("resque", ">= 1.27")
   s.add_runtime_dependency("uuidtools", "~> 2.2")
   s.add_runtime_dependency("redis")

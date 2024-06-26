@@ -86,6 +86,10 @@ module Resque
       @requeue_immediately = true
     end
 
+    def disable_requeue_immediately
+      @requeue_immediately = false
+    end
+
     def build_audit(args)
       auditor.initialize_by_klass_and_args(self, args)
     end
