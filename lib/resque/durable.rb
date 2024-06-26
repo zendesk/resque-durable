@@ -1,8 +1,9 @@
+require_relative 'durable/queue_audit_methods'
+
 module Resque
   module Durable
     autoload :GUID,       'resque/durable/guid'
     autoload :Monitor,    'resque/durable/monitor'
-    autoload :QueueAudit, 'resque/durable/queue_audit'
     autoload :BackgroundHeartbeat, 'resque/durable/background_heartbeat'
 
     def self.extended(base)

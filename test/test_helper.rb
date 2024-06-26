@@ -26,6 +26,10 @@ end
 module Resque
   module Durable
 
+    class QueueAudit < ActiveRecord::Base
+      include QueueAuditMethods
+    end
+
     class MailQueue
 
       class << self
