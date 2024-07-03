@@ -3,6 +3,7 @@
 - Add support for Rails 7.1
 - Drop support for Rails 5.2 and 6.0
 - Drop support for Ruby below 3.1
+- Convert QueueAudit model into a mixin
 
 # 4.1.1
 - Relax `resque` and `redis` dependency requirements

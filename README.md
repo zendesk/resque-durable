@@ -6,6 +6,30 @@ It does this by adding traditional database-backed audits for durable jobs enque
 When an audited job isn't marked as complete after a certain amount of time (10 minutes by default),
 it's considered failed, and will be re-enqueued with exponential backoff until it succeeds or is removed.
 
+# Installation
+
+Add it to your Gemfile:
+
+```ruby
+gem "resque-durable"
+```
+
+Run `bundle install`.
+
+Then, create a `QueueAudit` model in `app/models/resque/durable/queue_audit.rb`:
+
+```ruby
+module Resque
+  module Durable
+    class QueueAudit < ActiveRecord::Base
+      include QueueAuditMethods
+    end
+  end
+end
+```
+
+If you’re using multiple databases, these models should inherit from an abstract class that specifies a database connection, not directly from ActiveRecord::Base.
+
 # Usage
 
 See /examples
