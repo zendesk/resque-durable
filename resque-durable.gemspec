@@ -1,6 +1,8 @@
+require_relative "lib/resque/durable/version"
+
 Gem::Specification.new do |s|
   s.name     = "resque-durable"
-  s.version  = "4.1.1"
+  s.version  = Resque::Durable::VERSION
   s.authors  = ["Eric Chapweske", "Ben Osheroff"]
   s.summary  = "Resque queue backed by database audits, with automatic retry"
   s.homepage = "https://github.com/zendesk/resque-durable"
