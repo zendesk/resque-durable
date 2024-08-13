@@ -1,5 +1,11 @@
 # Unreleased
 
+# 4.3.0
+
+- Test with Rails main
+- Add support for Rails 7.2
+- Fixed ActiveRecord::Base.clear_active_connections! removal error, using ActiveRecord::Base.connection_handler.clear_active_connections! now
+
 # 4.2.0
 
 - Add support for Rails 7.1
