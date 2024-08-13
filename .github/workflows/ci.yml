@@ -28,6 +28,7 @@ jobs:
           - rails6.1
           - rails7.0
           - rails7.1
+          - rails7.2
           - resque_1_and_redis_4
 
     env:
