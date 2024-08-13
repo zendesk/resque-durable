@@ -37,7 +37,7 @@ module Resque
         @queue_audit.logger.error("Exception in BackgroundHeartbeat thread: #{e.class.name}: #{e.message}")
         self.class.exit_now!
       ensure
-        ActiveRecord::Base.clear_active_connections!
+        ActiveRecord::Base.connection_handler.clear_active_connections!
       end
 
       def start!
