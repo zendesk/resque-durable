@@ -1,5 +1,7 @@
 # Unreleased
 
+- Pin uuidtools to ~>3.0
+
 # 4.3.0
 
 - Test with Rails main
