@@ -1,12 +1,12 @@
 require 'bundler/setup'
 
+require 'logger'
 require 'resque/durable'
 require 'minitest/autorun'
 require 'mocha/minitest'
 require 'timecop'
 
 require 'active_record'
-require 'logger'
 require 'yaml'
 database_config = YAML.load_file(File.join(File.dirname(__FILE__), 'database.yml'))
 ActiveRecord::Schema.verbose = false
