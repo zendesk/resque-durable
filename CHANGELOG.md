@@ -1,5 +1,7 @@
 # Unreleased
 
+# 4.4.0
+
 - Pin uuidtools to ~>3.0
 
 # 4.3.0
