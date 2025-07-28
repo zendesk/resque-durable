@@ -18,5 +18,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
+          bundler-cache: false
+      - name: Install dependencies
+        run: bundle install
       - uses: rubygems/release-gem@v1
