@@ -26,11 +26,11 @@ jobs:
           - "3.3"
           - "3.4"
         gemfile:
-          - rails6.1
           - rails7.0
           - rails7.1
           - rails7.2
-          - resque_1_and_redis_4
+          - rails8.0
+          - rails8.1
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
