@@ -1,4 +1,5 @@
 eval_gemfile("common.rb")
 
 gem "activerecord", "~> 8.1.0"
+gem "json", "~> 2"
 gem "sqlite3", ">= 2.1"

@@ -2,4 +2,5 @@ eval_gemfile("common.rb")
 
 gem "resque", "~> 2"
 gem "redis", "~> 3"
+gem "json", "~> 2"
 gem "sqlite3"
