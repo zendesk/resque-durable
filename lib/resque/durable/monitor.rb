@@ -4,8 +4,9 @@ module Resque
 
       attr_accessor :auditor, :expiration, :wait_duration
 
-      def initialize(auditor)
+      def initialize(auditor, output: $stdout)
         @auditor = auditor
+        @output = output
       end
 
       def watch
@@ -37,7 +38,7 @@ module Resque
       end
 
       def stop
-        puts 'Stopping...'
+        @output.puts 'Stopping...'
         @stopped = true
       end
 
