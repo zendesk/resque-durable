@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'stringio'
 
 class MonitorTest < Minitest::Test
 
@@ -31,7 +32,7 @@ class MonitorTest < Minitest::Test
 
   describe 'Monitor' do
     before do
-      @monitor = TestMonitor.new(FakeAudit.dup)
+      @monitor = TestMonitor.new(FakeAudit.dup, output: StringIO.new)
       @monitor.expiration = 3.days
     end
 

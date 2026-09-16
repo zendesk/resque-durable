@@ -1,5 +1,9 @@
 # Unreleased
 
+# 4.5.0
+
+- Add optional kwarg `:output` (default value `$stdout`) to Resque::Durable::Monitor's initializer, so the shutdown output can be directed to a different stream.
+
 # 4.4.0
 
 - Pin uuidtools to ~>3.0
